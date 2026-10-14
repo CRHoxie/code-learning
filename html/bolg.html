@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- 【页面标题】浏览器标签页上显示的文字，可自行修改 -->
+<title>请输入文本 · 个人博客</title>
+
+<style>
+  /* =========================================================
+     0. 基础重置（让各浏览器表现一致，通常不需要改）
+     ========================================================= */
+  *, *::before, *::after { box-sizing: border-box; }   /* 让 padding/border 不撑大元素宽度 */
+
+  html { -webkit-text-size-adjust: 100%; }              /* 防止手机横屏时字体被自动放大 */
+
+  body {
+    margin: 0;                                          /* 去掉浏览器默认外边距 */
+    min-height: 100vh;                                  /* 至少占满一屏高度 */
+    /* 【全站字体】想换字体改这一行即可 */
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC",
+                 "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif;
+    color: #f2f5ff;                                     /* 【全站文字颜色】 */
+    background: #070a16;                                /* 【兜底背景色】深蓝黑 */
+    overflow-x: hidden;                                 /* 防止背景光晕横向溢出出现滚动条 */
+    -webkit-font-smoothing: antialiased;                /* 让字体更细腻（Mac 上明显） */
+  }
+
+  /* =========================================================
+     1. 背景层（固定在最后面，不参与滚动）
+        .bg        → 容器，承载底色渐变 + 光晕 + 噪点
+        .blob      → 会缓慢飘动的彩色模糊光斑
+        .noise     → 细微颗粒噪点，增加质感
+     ========================================================= */
+  .bg {
+    position: fixed;          /* 固定在视口，滚动时背景不动 */
+    inset: 0;                 /* 等价于 top/right/bottom/left 都为 0，铺满全屏 */
+    z-index: -1;              /* 压在最底层，位于所有内容之后 */
+    overflow: hidden;         /* 裁掉超出屏幕的光斑 */
+    /* 【背景主色调】这里用 4 层径向渐变叠加，改颜色就改这里 */
+    background:
+      radial-gradient(1200px 800px at 15% -10%, #222d5e 0%, transparent 60%),  /* 左上：深蓝 */
+      radial-gradient(1000px 700px at 90% 8%,  #3a1f56 0%, transparent 60%),  /* 右上：深紫 */
+      radial-gradient(900px 900px at 50% 120%, #12324a 0%, transparent 65%),  /* 底部：青蓝 */
+      #070a16;                                                                /* 最底层底色 */
+  }
+
+  /* 【光斑通用样式】四个光斑共用这段，尺寸/颜色在下面单独定义 */
+  .blob {
+    position: absolute;       /* 相对 .bg 绝对定位 */
+    border-radius: 50%;       /* 圆形 */
+    filter: blur(90px);       /* 【模糊程度】数值越大越柔和、越像雾 */
+    opacity: .75;             /* 【整体透明度】0~1 */
+    will-change: transform;   /* 提示浏览器提前优化动画性能 */
+  }
+
+  /* ---------- 光斑 1（左上角，紫色） ---------- */
+  .b1 { width: 46vw; height: 46vw; min-width: 320px; min-height: 320px;  /* 尺寸：跟随视口宽度，同时限制最小值 */
+        top: -12vh; left: -6vw;                                          /* 位置：略超出左上角 */
+        background: radial-gradient(circle at 30% 30%, #7b5cff, transparent 70%);  /* 【颜色】紫 */
+        animation: drift1 22s ease-in-out infinite; }                    /* 动画名/时长/缓动/无限循环 */
+
+  /* ---------- 光斑 2（右上角，粉色） ---------- */
+  .b2 { width: 40vw; height: 40vw; min-width: 280px; min-height: 280px;
+        top: 4vh; right: -8vw;
+        background: radial-gradient(circle at 40% 40%, #ff5fa2, transparent 70%);  /* 【颜色】粉 */
+        animation: drift2 26s ease-in-out infinite; }
+
+  /* ---------- 光斑 3（底部中间，青色） ---------- */
+  .b3 { width: 50vw; height: 50vw; min-width: 320px; min-height: 320px;
+        bottom: -22vh; left: 16vw;
+        background: radial-gradient(circle at 50% 50%, #22d3ee, transparent 70%);  /* 【颜色】青 */
+        animation: drift3 30s ease-in-out infinite; }
+
+  /* ---------- 光斑 4（右下角，绿色，更淡） ---------- */
+  .b4 { width: 30vw; height: 30vw; min-width: 220px; min-height: 220px;
+        bottom: -6vh; right: 12vw; opacity: .5;                          /* 这个光斑单独调低了透明度 */
+        background: radial-gradient(circle at 50% 50%, #4ade80, transparent 70%);  /* 【颜色】绿 */
+        animation: drift1 34s ease-in-out infinite reverse; }            /* reverse = 反向播放，避免和 b1 同步 */
+
+  /* ---------- 光斑飘动动画（3 组，分别给不同光斑使用） ---------- */
+  @keyframes drift1 { 50% { transform: translate3d(8vw, 6vh, 0) scale(1.12); } }   /* 向右下飘并放大 */
+  @keyframes drift2 { 50% { transform: translate3d(-7vw, 8vh, 0) scale(1.08); } }  /* 向左下飘并放大 */
+  @keyframes drift3 { 50% { transform: translate3d(6vw, -7vh, 0) scale(1.15); } }  /* 向右上飘并放大 */
+
+  /* 【噪点纹理】用 SVG 生成随机颗粒，叠在光晕上增加高级感 */
+  .noise {
+    position: absolute;
+    inset: -50%;                       /* 放大一圈，避免边缘露出空白 */
+    opacity: .05;                      /* 【噪点强度】数值越小越不明显 */
+    pointer-events: none;              /* 不拦截鼠标事件 */
+    /* 这段是内联 SVG 的 data URI，生成分形噪声 */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* =========================================================
+     2. 液态玻璃「基类」
+        导航栏、主面板都用 .glass 来获得玻璃质感。
+        它由三部分组成：
+          - 元素本身：半透明渐变底 + 模糊 + 描边 + 阴影
+          - ::before：内部柔光反射（玻璃上的高光）
+          - ::after ：边缘 1px 折射亮边（勾出玻璃轮廓）
+     ========================================================= */
+  .glass {
+    position: relative;                 /* 作为伪元素定位的参照 */
+    isolation: isolate;                 /* 创建独立层叠上下文：让 z-index:-1 的伪元素只压在本元素背景之上，而不会跑到页面背景后面 */
+    /* 【玻璃底色】三层白色透明度渐变，模拟玻璃的厚度感，改这里的 rgba 可调深浅 */
+    background:
+      linear-gradient(135deg,
+        rgba(255, 255, 255, 0.20) 0%,     /* 左上：较亮 */
+        rgba(255, 255, 255, 0.07) 42%,    /* 中间：较暗 */
+        rgba(255, 255, 255, 0.14) 100%);  /* 右下：中等 */
+    /* 【核心：毛玻璃模糊】backdrop-filter 让元素「身后」的内容变模糊 */
+    -webkit-backdrop-filter: blur(30px) saturate(180%);   /* Safari 前缀 */
+    backdrop-filter: blur(30px) saturate(180%);           /* blur=模糊半径，saturate=背后颜色饱和度 */
+    border: 1px solid rgba(255, 255, 255, 0.30);          /* 【玻璃边框】半透明白边 */
+    /* 【阴影组合】外阴影做悬浮感，inset 内阴影做玻璃厚度与内发光 */
+    box-shadow:
+      0 24px 60px -16px rgba(3, 6, 20, 0.65),             /* 大范围外阴影 */
+      0 8px 24px -8px rgba(3, 6, 20, 0.45),               /* 小范围外阴影 */
+      inset 0 1px 0 rgba(255, 255, 255, 0.50),            /* 顶部内高光 */
+      inset 0 -1px 1px rgba(255, 255, 255, 0.12),         /* 底部内反光 */
+      inset 0 0 40px rgba(255, 255, 255, 0.05);           /* 整体内发光 */
+  }
+
+  /* 玻璃表面的柔光反射：两团白色柔光，左上最强、右下较弱 */
+  .glass::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;                    /* 位于元素内容之下、元素背景之上 */
+    border-radius: inherit;         /* 跟随父元素圆角 */
+    pointer-events: none;           /* 不挡点击 */
+    background:
+      radial-gradient(120% 90% at 18% -25%, rgba(255,255,255,0.50), rgba(255,255,255,0) 58%),  /* 左上主高光 */
+      radial-gradient(90% 70% at 105% 115%, rgba(255,255,255,0.28), rgba(255,255,255,0) 60%); /* 右下副高光 */
+  }
+
+  /* 玻璃边缘高光：用遮罩只保留 1.2px 的边框区域，形成一圈折射亮边 */
+  .glass::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    padding: 1.2px;                 /* 【亮边粗细】改这个数值可调边框高光厚度 */
+    pointer-events: none;
+    background: linear-gradient(140deg,
+      rgba(255,255,255,0.90) 0%,    /* 左上角最亮 */
+      rgba(255,255,255,0.08) 26%,
+      rgba(255,255,255,0.04) 58%,
+      rgba(255,255,255,0.65) 100%); /* 右下角次亮 */
+    /* 下面的遮罩写法：只显示 padding 区域（即边框一圈），中间内容区透明 */
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            mask-composite: exclude;
+  }
+
+  /* =========================================================
+     3. 顶部引导栏（导航）
+        固定悬浮在顶部中央，胶囊造型
+     ========================================================= */
+  .nav {
+    position: fixed;                    /* 固定定位，滚动页面时不移动 */
+    top: 20px;                          /* 【距顶部距离】 */
+    left: 50%;                          /* 先左移 50% */
+    transform: translateX(-50%);        /* 再回退自身宽度的一半 → 水平居中 */
+    z-index: 100;                       /* 保证盖在内容之上 */
+    max-width: calc(100vw - 32px);      /* 小屏时留出左右边距，不贴边 */
+    padding: 8px;                       /* 【胶囊内边距】改大则导航更「胖」 */
+    border-radius: 999px;               /* 超大圆角 = 胶囊形 */
+  }
+
+  /* 导航链接列表容器 */
+  .nav ul {
+    display: flex;                      /* 横向排列 */
+    align-items: center;
+    gap: 4px;                           /* 【链接之间的间距】 */
+    margin: 0;
+    padding: 0;
+    list-style: none;                   /* 去掉小圆点 */
+    overflow-x: auto;                   /* 窄屏时可横向滚动 */
+    scrollbar-width: none;              /* Firefox：隐藏滚动条 */
+  }
+  .nav ul::-webkit-scrollbar { display: none; }   /* Chrome/Safari：隐藏滚动条 */
+
+  /* 单个导航链接 */
+  .nav a {
+    display: block;
+    padding: 9px 20px;                  /* 【链接内边距】上下 9px，左右 20px */
+    border-radius: 999px;               /* 胶囊形 */
+    font-size: 14px;                    /* 【字号】 */
+    letter-spacing: .02em;
+    white-space: nowrap;                /* 文字不换行 */
+    color: rgba(242, 245, 255, 0.78);   /* 【默认文字颜色】 */
+    text-decoration: none;              /* 去掉下划线 */
+    transition: background .25s ease, color .25s ease, box-shadow .25s ease;  /* 悬停过渡动画 */
+  }
+
+  /* 悬停 / 键盘聚焦时的样式 */
+  .nav a:hover,
+  .nav a:focus-visible {
+    color: #fff;                                        /* 变亮 */
+    outline: none;                                      /* 去掉默认聚焦虚线 */
+    background: rgba(255, 255, 255, 0.16);              /* 出现浅色背景 */
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.55),          /* 内高光 */
+      0 4px 14px -6px rgba(0, 0, 0, 0.6);               /* 外阴影 */
+  }
+
+  /* =========================================================
+     4. 三栏骨架
+        左留白(200px) | 主区域(自适应) | 右留白(200px)
+        改左右留白宽度 → 改 grid-template-columns 的 200px
+     ========================================================= */
+  .layout {
+    display: grid;
+    grid-template-columns: 200px minmax(0, 1fr) 200px;  /* 左 / 中 / 右，中间 minmax(0,1fr) 防止内容撑破 */
+    align-items: start;                                 /* 子项顶部对齐 */
+    width: 100%;
+    max-width: 1480px;                                  /* 【整站最大宽度】超出则居中留白 */
+    min-height: 100vh;
+    margin: 0 auto;                                     /* 水平居中 */
+    padding: 104px 24px 64px;                           /* 上（避开导航）右 下 左 */
+  }
+
+  /* 左右两条留白栏：纯占位，无内容 */
+  .rail { min-height: 1px; }                            /* 给个最小高度，避免塌陷 */
+
+  /* =========================================================
+     5. 主面板（中间的大玻璃框）
+     ========================================================= */
+  .panel {
+    border-radius: 28px;                                /* 【主面板圆角】 */
+    padding: clamp(20px, 2.4vw, 34px);                  /* 【主面板内边距】随屏幕自适应，范围 20~34px */
+    min-height: calc(100vh - 200px);                    /* 让它尽量占满一屏高度（减去导航和上下留白） */
+    animation: rise .8s cubic-bezier(.22, 1, .36, 1) both;  /* 入场动画：从下方浮入 */
+  }
+
+  /* 入场动画关键帧 */
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(18px); }   /* 起始：透明 + 下移 18px */
+    to   { opacity: 1; transform: translateY(0); }      /* 结束：不透明 + 归位 */
+  }
+
+  /* ---------- 5.1 头部：左上角头像 + 右侧文字 ---------- */
+  .panel-head {
+    display: flex;                                      /* 头像和文字横向排列 */
+    align-items: center;                                /* 垂直居中 */
+    gap: clamp(14px, 1.6vw, 22px);                      /* 【头像与文字的间距】 */
+    padding-bottom: clamp(18px, 2vw, 26px);             /* 底部留白（与下方内容拉开） */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14); /* 【头部分割线】 */
+  }
+
+  /* 头像圆框 */
+  .avatar {
+    position: relative;
+    flex: 0 0 auto;                                     /* 不参与伸缩，保持尺寸 */
+    width: clamp(64px, 7vw, 88px);                      /* 【头像尺寸】范围 64~88px，随屏幕变化 */
+    height: clamp(64px, 7vw, 88px);                     /* 与宽度一致，保证是正圆 */
+    border-radius: 50%;                                 /* 圆形 */
+    display: grid;
+    place-items: center;                                /* 让内部文字居中 */
+    overflow: hidden;                                   /* 裁掉超出圆形的部分 */
+    font-size: 12px;                                    /* 【头像内占位文字字号】 */
+    letter-spacing: .08em;
+    color: rgba(30, 45, 90, 0.45);                      /* 【头像内占位文字颜色】 */
+    /* 【头像底色】想换头像底色，改这三层渐变 */
+    background: linear-gradient(150deg,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(214, 226, 255, 0.55) 42%,
+      rgba(160, 180, 255, 0.45) 100%);
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.55),              /* 外圈细白边 */
+      0 10px 26px -8px rgba(3, 6, 20, 0.7),             /* 外阴影 */
+      inset 0 2px 4px rgba(255, 255, 255, 0.95),        /* 顶部内高光 */
+      inset 0 -10px 20px rgba(110, 130, 255, 0.35);     /* 底部内反光 */
+  }
+
+  /* 头像上的镜面高光（左上角的小亮点） */
+  .avatar::before {
+    content: "";
+    position: absolute;
+    top: 5%; left: 12%;
+    width: 58%; height: 42%;
+    border-radius: 50%;
+    filter: blur(2px);                                  /* 柔化高光边缘 */
+    background: radial-gradient(closest-side, rgba(255,255,255,0.95), rgba(255,255,255,0));
+  }
+
+  .avatar span { position: relative; z-index: 1; }      /* 让文字压在高光之上 */
+
+  /* 头像右侧的文字块 */
+  .ident h1 {
+    margin: 0;
+    font-size: clamp(18px, 2vw, 24px);                  /* 【主标题字号】 */
+    font-weight: 600;                                   /* 【字重】 */
+    letter-spacing: .01em;
+  }
+
+  .ident p {
+    margin: 8px 0 0;                                    /* 与标题的间距 */
+    font-size: clamp(12px, 1.2vw, 14px);                /* 【副标题字号】 */
+    line-height: 1.6;
+    color: rgba(242, 245, 255, 0.60);                   /* 【副标题颜色】比正文更淡 */
+  }
+
+  /* ---------- 5.2 内容区容器（垂直排列卡片） ---------- */
+  .panel-body {
+    display: grid;
+    gap: 16px;                                          /* 【卡片之间的间距】 */
+    padding-top: clamp(18px, 2vw, 26px);                /* 与头部的间距 */
+  }
+
+  /* ---------- 5.3 单张内容卡片 ---------- */
+  .card {
+    position: relative;
+    border-radius: 20px;                                /* 【卡片圆角】 */
+    padding: clamp(16px, 1.8vw, 24px);                  /* 【卡片内边距】 */
+    border: 1px solid rgba(255, 255, 255, 0.14);        /* 【卡片边框】 */
+    /* 【卡片底色】比主面板更淡一点 */
+    background: linear-gradient(150deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.28),          /* 顶部内高光 */
+      0 10px 24px -18px rgba(0, 0, 0, 0.9);             /* 外阴影 */
+    transition: transform .35s cubic-bezier(.22, 1, .36, 1),
+                background .35s ease, border-color .35s ease;  /* 悬停过渡 */
+  }
+
+  /* 卡片悬停效果：微微上浮 + 变亮 */
+  .card:hover {
+    transform: translateY(-3px);                        /* 【上浮距离】 */
+    border-color: rgba(255, 255, 255, 0.26);
+    background: linear-gradient(150deg, rgba(255,255,255,0.16), rgba(255,255,255,0.07));
+  }
+
+  .card h2 {
+    margin: 0 0 10px;                                   /* 标题与正文的间距 */
+    font-size: clamp(15px, 1.5vw, 17px);                /* 【卡片标题字号】 */
+    font-weight: 600;
+  }
+
+  .card p {
+    margin: 0;
+    font-size: clamp(13px, 1.3vw, 14.5px);              /* 【卡片正文字号】 */
+    line-height: 1.85;                                  /* 【正文行高】 */
+    color: rgba(242, 245, 255, 0.66);                   /* 【正文颜色】 */
+  }
+
+  /* =========================================================
+     6. 响应式适配（不同屏幕宽度下的调整）
+     ========================================================= */
+
+  /* 6.1 中屏（≤1180px）：收窄左右留白，让主区域更宽 */
+  @media (max-width: 1180px) {
+    .layout {
+      grid-template-columns: 72px minmax(0, 1fr) 72px;
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+  }
+
+  /* 6.2 平板/手机（≤860px）：去掉左右留白，变成单栏 */
+  @media (max-width: 860px) {
+    .layout {
+      grid-template-columns: minmax(0, 1fr);            /* 只保留主区域一列 */
+      padding: 96px 16px 48px;
+    }
+    .rail { display: none; }                            /* 隐藏左右留白栏 */
+    .panel { min-height: auto; border-radius: 24px; }   /* 高度交给内容撑开 */
+  }
+
+  /* 6.3 小手机（≤560px）：进一步压缩尺寸 */
+  @media (max-width: 560px) {
+    .nav a { padding: 8px 14px; font-size: 13px; }      /* 导航更紧凑 */
+    .avatar { width: 60px; height: 60px; }              /* 头像变小 */
+  }
+
+  /* =========================================================
+     7. 兼容性与无障碍
+     ========================================================= */
+  /* 如果浏览器不支持 backdrop-filter，玻璃会失效变透明 → 这里给个不透明深色兜底 */
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .glass { background: linear-gradient(135deg, rgba(40, 48, 90, 0.85), rgba(20, 26, 55, 0.85)); }
+  }
+
+  /* 如果用户系统开启了「减少动态效果」，则关闭所有动画和过渡 */
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- =========================================================
+       【背景层】
+       aria-hidden="true" 表示这是纯装饰，屏幕阅读器会忽略
+       ========================================================= -->
+  <div class="bg" aria-hidden="true">
+    <span class="blob b1"></span>   <!-- 光斑 1：左上，紫色 -->
+    <span class="blob b2"></span>   <!-- 光斑 2：右上，粉色 -->
+    <span class="blob b3"></span>   <!-- 光斑 3：底部，青色 -->
+    <span class="blob b4"></span>   <!-- 光斑 4：右下，绿色 -->
+    <div class="noise"></div>       <!-- 噪点颗粒层 -->
+  </div>
+
+  <!-- =========================================================
+       【顶部引导栏 / 导航】
+       每个 <li> 是一个导航项，<a> 里的文字请自行替换
+       ========================================================= -->
+  <nav class="nav glass" aria-label="主导航">
+    <ul>
+      <!-- 导航项 1（重复结构，可复制/删除） -->
+      <li><a href="#">请输入文本</a></li>
+      <!-- 导航项 2（重复结构，可复制/删除） -->
+      <li><a href="#">请输入文本</a></li>
+      <!-- 导航项 3（重复结构，可复制/删除） -->
+      <li><a href="#">请输入文本</a></li>
+      <!-- 导航项 4（重复结构，可复制/删除） -->
+      <li><a href="#">请输入文本</a></li>
+    </ul>
+  </nav>
+
+  <!-- =========================================================
+       【三栏布局主体】
+       ========================================================= -->
+  <main class="layout">
+
+    <!-- 左留白栏（纯占位，可放广告位/侧边栏） -->
+    <aside class="rail" aria-hidden="true"></aside>
+
+    <!-- ============ 主区域（中间的液态玻璃大框） ============ -->
+    <section class="panel glass">
+
+      <!-- ---------- 头部：左上角头像 + 文字 ---------- -->
+      <header class="panel-head">
+        <!-- 头像框：想换成图片，可把 <span>头像</span> 换成 <img src="图片地址" alt="头像" style="width:100%;height:100%;object-fit:cover;"> -->
+        <div class="avatar" title="头像" role="img" aria-label="头像占位">
+          <span>头像</span>   <!-- 占位文字，可改 -->
+        </div>
+
+        <!-- 头像右侧的文字 -->
+        <div class="ident">
+          <h1>请输入文本</h1>   <!-- 博客主标题 / 博主昵称，自行替换 -->
+          <p>请输入文本</p>     <!-- 一句话简介 / 副标题，自行替换 -->
+        </div>
+      </header>
+
+      <!-- ---------- 内容区：多张卡片 ---------- -->
+      <div class="panel-body">
+
+        <!-- 卡片 1（重复结构，可复制/删除） -->
+        <article class="card">
+          <h2>请输入文本</h2>   <!-- 卡片标题，自行替换 -->
+          <p>请输入文本</p>     <!-- 卡片正文，自行替换 -->
+        </article>
+
+        <!-- 卡片 2（重复结构，可复制/删除） -->
+        <article class="card">
+          <h2>请输入文本</h2>
+          <p>请输入文本</p>
+        </article>
+
+        <!-- 卡片 3（重复结构，可复制/删除） -->
+        <article class="card">
+          <h2>请输入文本</h2>
+          <p>请输入文本</p>
+        </article>
+
+      </div>
+
+    </section>
+
+    <!-- 右留白栏（纯占位，可放广告位/侧边栏） -->
+    <aside class="rail" aria-hidden="true"></aside>
+
+  </main>
+
+</body>
+</html>

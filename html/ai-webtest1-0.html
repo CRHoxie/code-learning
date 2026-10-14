@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MAISON BLANC 白邸设计事务所 · 以极简之白，构筑恒久之美</title>
+<meta name="description" content="白邸设计事务所，专注欧式简约空间营造。创立于1924年巴黎，业务涵盖建筑、室内、软装全案设计。" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ============ 基础 ============ */
+:root{
+  --white:#ffffff;
+  --off:#faf9f7;
+  --ink:#1b1b1b;
+  --ink-soft:#57544e;
+  --muted:#9c988f;
+  --line:#eae7e1;
+  --line-strong:#ddd8cf;
+  --gold:#b08d57;
+  --serif:'Cormorant Garamond','Songti SC','STSong',Georgia,'Times New Roman',serif;
+  --sans:'Jost','Helvetica Neue',Helvetica,'PingFang SC','Microsoft YaHei',Arial,sans-serif;
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  font-family:var(--sans);
+  font-weight:300;
+  font-size:15px;
+  line-height:1.8;
+  color:var(--ink);
+  background:var(--white);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;background:none;border:0;cursor:pointer;color:inherit}
+::selection{background:#efe7d9;color:var(--ink)}
+
+/* 滚动条 */
+::-webkit-scrollbar{width:9px}
+::-webkit-scrollbar-track{background:#faf9f7}
+::-webkit-scrollbar-thumb{background:#e0dcd4}
+::-webkit-scrollbar-thumb:hover{background:#cdc7bd}
+
+/* ============ 布局工具 ============ */
+.container{max-width:1280px;margin:0 auto;padding:0 44px}
+.section{padding:140px 0;position:relative;scroll-margin-top:88px}
+.section--off{background:var(--off)}
+.section--line{border-top:1px solid var(--line)}
+
+.eyebrow{
+  font-size:11px;letter-spacing:.34em;text-transform:uppercase;
+  color:var(--gold);font-weight:400;margin-bottom:22px;
+}
+.eyebrow--muted{color:var(--muted)}
+
+h1,h2,h3,h4{font-family:var(--serif);font-weight:400;line-height:1.15;letter-spacing:.005em}
+h2{font-size:clamp(2rem,3.6vw,3.1rem)}
+h3{font-size:1.4rem}
+
+.section-head{max-width:720px;margin-bottom:76px}
+.section-head p{color:var(--ink-soft);margin-top:22px;font-size:15px;max-width:560px}
+.section-head--center{margin-left:auto;margin-right:auto;text-align:center}
+.section-head--center p{margin-left:auto;margin-right:auto}
+
+.rule{width:56px;height:1px;background:var(--line-strong);margin:26px 0}
+.section-head--center .rule{margin-left:auto;margin-right:auto}
+
+/* ============ 按钮 ============ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:12px;
+  padding:17px 38px;font-size:11px;font-weight:400;
+  letter-spacing:.2em;text-transform:uppercase;
+  border:1px solid var(--ink);background:transparent;color:var(--ink);
+  transition:background .45s var(--ease),color .45s var(--ease),border-color .45s var(--ease);
+  white-space:nowrap;
+}
+.btn--solid{background:var(--ink);color:#fff}
+.btn--solid:hover{background:transparent;color:var(--ink)}
+.btn--ghost:hover{background:var(--ink);color:#fff}
+.btn--light{border-color:rgba(255,255,255,.35);color:#fff}
+.btn--light:hover{background:#fff;color:var(--ink);border-color:#fff}
+
+/* ============ 导航 ============ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  background:rgba(255,255,255,.82);
+  -webkit-backdrop-filter:saturate(180%) blur(16px);
+  backdrop-filter:saturate(180%) blur(16px);
+  border-bottom:1px solid transparent;
+  transition:border-color .5s var(--ease),background .5s var(--ease);
+}
+.nav.is-scrolled{border-bottom-color:var(--line);background:rgba(255,255,255,.94)}
+.nav__inner{
+  max-width:1280px;margin:0 auto;padding:0 44px;height:88px;
+  display:flex;align-items:center;justify-content:space-between;gap:36px;
+}
+.brand{display:flex;align-items:center;gap:14px;flex:none}
+.brand__mark{
+  width:40px;height:40px;flex:none;
+  border:1px solid var(--line-strong);
+  display:grid;place-items:center;
+  font-family:var(--serif);font-size:15px;letter-spacing:.06em;
+  color:var(--ink);
+  transition:border-color .45s var(--ease),background .45s var(--ease),color .45s var(--ease);
+}
+.brand:hover .brand__mark{background:var(--ink);color:#fff;border-color:var(--ink)}
+.brand__text{display:flex;flex-direction:column;line-height:1.25}
+.brand__text strong{
+  font-family:var(--serif);font-size:16px;font-weight:500;letter-spacing:.18em;
+}
+.brand__text em{
+  font-style:normal;font-size:10px;letter-spacing:.28em;color:var(--muted);
+  text-transform:uppercase;
+}
+.nav__links{display:flex;align-items:center;gap:38px;margin-left:auto}
+.nav__links a{
+  position:relative;font-size:12px;letter-spacing:.16em;color:var(--ink-soft);
+  padding:6px 0;transition:color .35s var(--ease);
+}
+.nav__links a::after{
+  content:'';position:absolute;left:0;bottom:0;width:100%;height:1px;
+  background:var(--ink);transform:scaleX(0);transform-origin:right;
+  transition:transform .5s var(--ease);
+}
+.nav__links a:hover{color:var(--ink)}
+.nav__links a:hover::after{transform:scaleX(1);transform-origin:left}
+.nav__links a.is-active{color:var(--ink)}
+.nav__links a.is-active::after{transform:scaleX(1);background:var(--gold)}
+.nav__cta{
+  flex:none;font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  border:1px solid var(--line-strong);padding:12px 26px;
+  transition:.45s var(--ease);
+}
+.nav__cta:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.nav__burger{
+  display:none;width:40px;height:40px;flex-direction:column;
+  justify-content:center;gap:6px;align-items:flex-end;
+}
+.nav__burger span{
+  display:block;height:1px;width:24px;background:var(--ink);
+  transition:.4s var(--ease);
+}
+.nav__burger span:last-child{width:16px}
+.nav__burger.is-open span:first-child{transform:translateY(3.5px) rotate(45deg);width:24px}
+.nav__burger.is-open span:last-child{transform:translateY(-3.5px) rotate(-45deg);width:24px}
+
+.nav__panel{
+  display:none;position:fixed;top:88px;left:0;right:0;z-index:190;
+  background:#fff;border-bottom:1px solid var(--line);
+  padding:24px 44px 34px;flex-direction:column;
+  max-height:calc(100vh - 88px);overflow-y:auto;
+}
+.nav__panel.is-open{display:flex;animation:panelIn .45s var(--ease)}
+@keyframes panelIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+.nav__panel a{
+  padding:16px 0;border-bottom:1px solid var(--line);
+  font-size:13px;letter-spacing:.14em;color:var(--ink-soft);
+}
+.nav__panel a:hover{color:var(--ink)}
+
+/* ============ Hero ============ */
+.hero{
+  position:relative;min-height:100vh;min-height:100svh;
+  display:flex;align-items:center;justify-content:center;
+  padding:150px 44px 120px;overflow:hidden;text-align:center;
+}
+.hero__watermark{
+  position:absolute;top:52%;left:50%;transform:translate(-50%,-50%);
+  font-family:var(--serif);font-weight:500;
+  font-size:min(29vw,430px);line-height:1;letter-spacing:.01em;
+  color:#f6f4f0;white-space:nowrap;pointer-events:none;user-select:none;
+  z-index:0;
+}
+.hero__frame{
+  position:absolute;inset:32px;border:1px solid #f2efe9;
+  pointer-events:none;z-index:0;
+}
+.hero__content{position:relative;z-index:2;max-width:900px}
+.hero h1{
+  font-size:clamp(2.6rem,6.4vw,5.4rem);
+  line-height:1.08;letter-spacing:.01em;margin-bottom:34px;
+}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero__lead{
+  max-width:600px;margin:0 auto 52px;color:var(--ink-soft);
+  font-size:15.5px;line-height:2;
+}
+.hero__actions{display:flex;gap:18px;justify-content:center;flex-wrap:wrap}
+.hero__scroll{
+  position:absolute;left:50%;bottom:42px;transform:translateX(-50%);
+  z-index:2;display:flex;flex-direction:column;align-items:center;gap:14px;
+  font-size:9.5px;letter-spacing:.34em;color:var(--muted);
+}
+.hero__scroll i{
+  display:block;width:1px;height:56px;
+  background:linear-gradient(to bottom,var(--line-strong),transparent);
+  animation:scrollLine 2.4s var(--ease) infinite;
+  transform-origin:top;
+}
+@keyframes scrollLine{
+  0%{transform:scaleY(.2);opacity:.3}
+  45%{transform:scaleY(1);opacity:1}
+  100%{transform:scaleY(1);opacity:0}
+}
+
+/* ============ 关于 ============ */
+.about__grid{
+  display:grid;grid-template-columns:0.85fr 1fr;gap:90px;align-items:center;
+}
+.about__figure{position:relative}
+.about__figure .frame{
+  position:absolute;inset:18px -18px -18px 18px;
+  border:1px solid var(--line);z-index:0;
+}
+.about__figure .media{
+  position:relative;z-index:1;aspect-ratio:4/5;overflow:hidden;background:#f6f4f0;
+}
+.about__figure .media svg{width:100%;height:100%}
+.about__body h2{margin-bottom:28px}
+.about__body p{color:var(--ink-soft);margin-bottom:20px;font-size:15px}
+.about__body p:last-of-type{margin-bottom:0}
+.signature{
+  font-family:var(--serif);font-style:italic;font-size:1.35rem;
+  color:var(--muted);margin-top:36px;
+}
+
+.stats{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border-top:1px solid var(--line);margin-top:100px;
+}
+.stat{
+  padding:44px 30px 0;border-right:1px solid var(--line);
+}
+.stat:last-child{border-right:0}
+.stat:first-child{padding-left:0}
+.stat b{
+  display:block;font-family:var(--serif);font-weight:400;
+  font-size:clamp(2rem,3.4vw,2.9rem);line-height:1;color:var(--ink);
+}
+.stat b i{font-style:normal;font-size:.45em;color:var(--gold);margin-left:4px;vertical-align:super}
+.stat span{
+  display:block;margin-top:14px;font-size:11px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--muted);
+}
+
+/* ============ 发展史 ============ */
+.timeline{position:relative;max-width:980px;margin:0 auto}
+.tl-item{
+  display:grid;grid-template-columns:160px 1fr;gap:52px;
+  position:relative;padding-bottom:72px;
+}
+.tl-item:last-child{padding-bottom:0}
+.tl-item::before{
+  content:'';position:absolute;left:186px;top:14px;bottom:-14px;
+  width:1px;background:var(--line);z-index:0;
+}
+.tl-item:last-child::before{display:none}
+.tl-item::after{
+  content:'';position:absolute;left:186px;top:11px;
+  width:9px;height:9px;border-radius:50%;
+  background:#fff;border:1px solid var(--line-strong);
+  transform:translateX(-50%);z-index:1;
+  transition:border-color .5s var(--ease),background .5s var(--ease);
+}
+.tl-item:hover::after{background:var(--gold);border-color:var(--gold)}
+.tl-year{
+  font-family:var(--serif);font-size:1.85rem;line-height:1;
+  color:var(--ink);text-align:right;padding-top:2px;letter-spacing:.02em;
+}
+.tl-year small{
+  display:block;font-family:var(--sans);font-size:10px;
+  letter-spacing:.24em;color:var(--muted);margin-top:10px;
+  text-transform:uppercase;
+}
+.tl-body h3{margin-bottom:12px;font-size:1.3rem}
+.tl-body p{color:var(--ink-soft);font-size:14.5px;max-width:560px}
+.tl-tag{
+  display:inline-block;margin-top:16px;font-size:10.5px;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--gold);
+  border:1px solid #ece3d4;padding:5px 14px;
+}
+
+/* ============ 价格 ============ */
+.plans{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  border:1px solid var(--line);background:#fff;
+}
+.plan{
+  padding:58px 44px 52px;border-right:1px solid var(--line);
+  position:relative;background:#fff;
+  transition:background .5s var(--ease);
+}
+.plan:last-child{border-right:0}
+.plan:hover{background:var(--off)}
+.plan--featured{background:var(--off)}
+.plan--featured::before{
+  content:'';position:absolute;top:-1px;left:-1px;right:-1px;height:2px;background:var(--gold);
+}
+.plan__label{
+  font-size:10.5px;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:26px;
+}
+.plan__name{
+  font-family:var(--serif);font-size:1.6rem;margin-bottom:8px;
+}
+.plan__desc{font-size:13px;color:var(--muted);min-height:44px}
+.plan__price{
+  font-family:var(--serif);font-size:2.9rem;line-height:1;
+  margin:30px 0 6px;letter-spacing:.01em;
+}
+.plan__price sup{
+  font-size:.4em;vertical-align:super;color:var(--gold);
+  margin-right:5px;letter-spacing:.1em;
+}
+.plan__price small{
+  font-family:var(--sans);font-size:12px;color:var(--muted);
+  letter-spacing:.06em;margin-left:6px;
+}
+.plan__note{font-size:12px;color:var(--muted);letter-spacing:.06em}
+.plan ul{list-style:none;margin:36px 0 44px;border-top:1px solid var(--line)}
+.plan li{
+  display:flex;gap:14px;align-items:flex-start;
+  padding:14px 0;border-bottom:1px solid var(--line);
+  font-size:13.5px;color:var(--ink-soft);
+}
+.plan li::before{
+  content:'';flex:none;width:5px;height:5px;border-radius:50%;
+  background:var(--gold);margin-top:11px;
+}
+.plan .btn{width:100%}
+.plans__foot{
+  text-align:center;margin-top:44px;font-size:12.5px;
+  color:var(--muted);letter-spacing:.06em;
+}
+
+/* ============ 展示 ============ */
+.gallery{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  column-gap:28px;row-gap:56px;
+}
+.g-item{display:block}
+.g-item .tile{
+  position:relative;overflow:hidden;aspect-ratio:4/5;
+  background:#f6f4f0;
+}
+.g-item .tile svg{
+  width:100%;height:100%;
+  transition:transform 1s var(--ease),filter 1s var(--ease);
+}
+.g-item:hover .tile svg{transform:scale(1.05)}
+.g-item .tile::after{
+  content:'';position:absolute;inset:0;border:1px solid rgba(27,27,27,0);
+  transition:border-color .5s var(--ease);
+}
+.g-item:hover .tile::after{border-color:rgba(27,27,27,.1)}
+.g-item figcaption{padding-top:22px}
+.g-item h3{font-size:1.2rem;margin-bottom:7px}
+.g-item span{
+  font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);
+}
+.gallery__more{text-align:center;margin-top:80px}
+
+/* ============ 团队 ============ */
+.team{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:44px 36px;
+}
+.member{text-align:left}
+.member__avatar{
+  aspect-ratio:1/1;background:var(--off);border:1px solid var(--line);
+  display:grid;place-items:center;margin-bottom:26px;
+  position:relative;overflow:hidden;
+  transition:background .6s var(--ease);
+}
+.member:hover .member__avatar{background:#f2efe9}
+.member__avatar b{
+  font-family:var(--serif);font-weight:400;font-size:2.6rem;
+  color:#cfc9bd;letter-spacing:.04em;
+  transition:color .6s var(--ease),transform .6s var(--ease);
+}
+.member:hover .member__avatar b{color:var(--gold);transform:translateY(-3px)}
+.member__avatar::after{
+  content:'';position:absolute;inset:14px;border:1px solid #f0ece5;
+  transition:border-color .6s var(--ease);
+}
+.member:hover .member__avatar::after{border-color:#e8e0d2}
+.member h3{font-size:1.15rem;margin-bottom:6px}
+.member__role{
+  font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:14px;
+}
+.member p{font-size:13px;color:var(--muted);line-height:1.85}
+
+/* ============ CTA ============ */
+.cta{
+  text-align:center;padding:150px 44px;
+  border-top:1px solid var(--line);
+  background:var(--white);
+}
+.cta h2{max-width:760px;margin:0 auto 26px}
+.cta p{color:var(--ink-soft);max-width:520px;margin:0 auto 46px}
+.cta__meta{
+  margin-top:52px;display:flex;gap:56px;justify-content:center;flex-wrap:wrap;
+  font-size:12.5px;letter-spacing:.1em;color:var(--muted);
+}
+.cta__meta a{border-bottom:1px solid var(--line-strong);padding-bottom:3px;transition:.35s var(--ease)}
+.cta__meta a:hover{color:var(--ink);border-color:var(--ink)}
+
+/* ============ 页脚 ============ */
+.footer{background:#141414;color:#a9a49c;padding:96px 0 40px}
+.footer__grid{
+  display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:56px;
+  padding-bottom:70px;border-bottom:1px solid rgba(255,255,255,.09);
+}
+.footer .brand__mark{border-color:rgba(255,255,255,.22);color:#fff}
+.footer .brand__text strong{color:#fff}
+.footer .brand__text em{color:#6f6a63}
+.footer__about{margin-top:26px;font-size:13.5px;line-height:2;max-width:300px;color:#8b867e}
+.footer h4{
+  font-family:var(--sans);font-size:10.5px;font-weight:400;
+  letter-spacing:.28em;text-transform:uppercase;color:#6f6a63;
+  margin-bottom:26px;
+}
+.footer ul{list-style:none}
+.footer li{margin-bottom:14px}
+.footer li a{font-size:13.5px;color:#a9a49c;transition:color .35s var(--ease)}
+.footer li a:hover{color:#fff}
+.footer__bottom{
+  padding-top:36px;display:flex;justify-content:space-between;
+  align-items:center;gap:24px;flex-wrap:wrap;
+  font-size:11.5px;letter-spacing:.1em;color:#6f6a63;
+}
+.footer__bottom a:hover{color:#fff}
+
+/* ============ 滚动显现 ============ */
+.reveal{
+  opacity:0;transform:translateY(30px);
+  transition:opacity 1s var(--ease),transform 1s var(--ease);
+  will-change:opacity,transform;
+}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  .reveal{opacity:1;transform:none;transition:none}
+  html{scroll-behavior:auto}
+  .hero__scroll i{animation:none}
+}
+
+/* ============ 响应式 ============ */
+@media (max-width:1180px){
+  .nav__links{gap:26px}
+  .about__grid{gap:64px}
+}
+@media (max-width:980px){
+  .nav__links,.nav__cta{display:none}
+  .nav__burger{display:flex}
+  .nav__inner{height:76px;padding:0 30px}
+  .nav__panel{top:76px;padding:20px 30px 30px}
+  .container{padding:0 30px}
+  .section{padding:104px 0;scroll-margin-top:76px}
+
+  .hero{padding:130px 30px 110px}
+  .hero__frame{inset:20px}
+
+  .about__grid{grid-template-columns:1fr;gap:56px}
+  .about__figure{max-width:460px}
+  .about__figure .frame{inset:16px -16px -16px 16px}
+  .stats{grid-template-columns:repeat(2,1fr);margin-top:72px}
+  .stat{padding:36px 26px 0;border-bottom:1px solid var(--line)}
+  .stat:nth-child(2){border-right:0}
+  .stat:nth-child(3){padding-left:0;border-bottom:0}
+  .stat:nth-child(4){border-bottom:0;border-right:0}
+  .stat:first-child{padding-left:0}
+
+  .plans{grid-template-columns:1fr}
+  .plan{border-right:0;border-bottom:1px solid var(--line);padding:48px 34px 44px}
+  .plan:last-child{border-bottom:0}
+  .plan--featured::before{right:-1px}
+
+  .gallery{grid-template-columns:repeat(2,1fr);column-gap:22px;row-gap:48px}
+  .team{grid-template-columns:repeat(2,1fr);gap:40px 28px}
+
+  .timeline{max-width:100%}
+  .tl-item{grid-template-columns:1fr;gap:14px;padding-left:34px;padding-bottom:56px}
+  .tl-item::before{left:5px;top:10px;bottom:-10px}
+  .tl-item::after{left:5px;top:8px}
+  .tl-year{text-align:left;font-size:1.5rem}
+  .tl-year small{margin-top:6px}
+
+  .footer__grid{grid-template-columns:1fr 1fr;gap:48px 40px}
+  .footer__about{max-width:100%}
+}
+@media (max-width:640px){
+  body{font-size:14.5px}
+  .container{padding:0 22px}
+  .nav__inner{padding:0 22px}
+  .nav__panel{padding:16px 22px 26px}
+  .section{padding:84px 0}
+  .section-head{margin-bottom:52px}
+
+  .hero{padding:118px 22px 100px}
+  .hero__frame{inset:12px}
+  .hero__watermark{font-size:36vw}
+  .hero__actions{flex-direction:column;width:100%;max-width:320px;margin:0 auto}
+  .hero__actions .btn{width:100%}
+  .hero__scroll{bottom:28px}
+
+  .stats{grid-template-columns:1fr}
+  .stat{padding:30px 0 0 !important;border-right:0 !important;border-bottom:1px solid var(--line)}
+  .stat:last-child{border-bottom:0}
+
+  .gallery{grid-template-columns:1fr;row-gap:42px}
+  .team{grid-template-columns:1fr;gap:36px}
+  .member{display:grid;grid-template-columns:88px 1fr;gap:20px;align-items:start}
+  .member__avatar{margin-bottom:0;aspect-ratio:1/1}
+  .member__avatar b{font-size:1.7rem}
+  .member__avatar::after{inset:9px}
+
+  .plan{padding:40px 26px 38px}
+  .cta{padding:96px 22px}
+  .cta__meta{gap:20px 32px;flex-direction:column;align-items:center}
+  .footer{padding:72px 0 32px}
+  .footer__grid{grid-template-columns:1fr;gap:44px}
+  .footer__bottom{flex-direction:column;align-items:flex-start;gap:14px}
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== 导航 ==================== -->
+<header class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="#home" class="brand" aria-label="MAISON BLANC 首页">
+      <span class="brand__mark">MB</span>
+      <span class="brand__text">
+        <strong>MAISON BLANC</strong>
+        <em>白邸设计事务所</em>
+      </span>
+    </a>
+
+    <nav class="nav__links" aria-label="主导航">
+      <a href="#home" class="is-active">首页</a>
+      <a href="#about">关于</a>
+      <a href="#history">发展史</a>
+      <a href="#pricing">价格</a>
+      <a href="#gallery">展示</a>
+      <a href="#team">团队</a>
+    </nav>
+
+    <a href="#contact" class="nav__cta">预约咨询</a>
+
+    <button class="nav__burger" id="burger" aria-label="打开菜单" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+  </div>
+
+  <div class="nav__panel" id="panel">
+    <a href="#home">首页</a>
+    <a href="#about">关于我们</a>
+    <a href="#history">发展史</a>
+    <a href="#pricing">价格方案</a>
+    <a href="#gallery">作品展示</a>
+    <a href="#team">核心团队</a>
+    <a href="#contact">预约咨询</a>
+  </div>
+</header>
+
+<main>
+
+<!-- ==================== 首页 Hero ==================== -->
+<section class="hero" id="home">
+  <div class="hero__frame" aria-hidden="true"></div>
+  <div class="hero__watermark" aria-hidden="true">BLANC</div>
+
+  <div class="hero__content">
+    <p class="eyebrow">Paris · Est. 1924</p>
+    <h1>以极简之白<br>构筑<em>恒久</em>之美</h1>
+    <p class="hero__lead">
+      白邸设计事务所，专注欧式简约空间营造。我们相信克制的线条、纯粹的光与恰到好处的留白，
+      才是建筑最优雅、也最经得起时间的语言。
+    </p>
+    <div class="hero__actions">
+      <a href="#gallery" class="btn btn--solid">浏览作品</a>
+      <a href="#pricing" class="btn btn--ghost">查看价格</a>
+    </div>
+  </div>
+
+  <div class="hero__scroll" aria-hidden="true">
+    <i></i>
+    SCROLL
+  </div>
+</section>
+
+<!-- ==================== 关于 ==================== -->
+<section class="section" id="about">
+  <div class="container">
+    <div class="about__grid">
+
+      <figure class="about__figure reveal">
+        <div class="frame" aria-hidden="true"></div>
+        <div class="media">
+          <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" role="img" aria-label="欧式拱廊意象图">
+            <rect width="400" height="500" fill="#f6f4f0"/>
+            <path d="M110 430V240a90 90 0 0 1 180 0v190" fill="none" stroke="#ded8ce" stroke-width="1.2"/>
+            <path d="M155 430V260a45 45 0 0 1 90 0v170" fill="none" stroke="#e8e3da" stroke-width="1"/>
+            <line x1="62" y1="430" x2="338" y2="430" stroke="#ded8ce" stroke-width="1.2"/>
+            <line x1="62" y1="98" x2="338" y2="98" stroke="#f0ece5" stroke-width="1"/>
+          </svg>
+        </div>
+      </figure>
+
+      <div class="about__body reveal" data-delay="120">
+        <p class="eyebrow">About the Maison</p>
+        <h2>一百年，只做一件事：<br>把空间还原成光的样子</h2>
+        <div class="rule"></div>
+        <p>
+          白邸（Maison Blanc）1924 年创立于巴黎左岸，由建筑师 Émile Blanc 创办。
+          一个世纪以来，我们始终以「少即是多」为信条，从建筑改造、室内设计到软装陈设，
+          为居住者提供完整而克制的美学解决方案。
+        </p>
+        <p>
+          我们不做繁复的装饰，而是回到比例、材质与自然光本身。
+          在白色的底色上，木的温度、石的肌理与铜的微光彼此呼应，
+          构成一种安静、耐用、能陪伴数十年的居住秩序。
+        </p>
+        <p class="signature">— Émile Blanc 三代传承</p>
+      </div>
+
+    </div>
+
+    <div class="stats reveal" data-delay="80">
+      <div class="stat"><b>1924</b><span>创立年份</span></div>
+      <div class="stat"><b>260<i>+</i></b><span>落成项目</span></div>
+      <div class="stat"><b>38</b><span>设计师团队</span></div>
+      <div class="stat"><b>12</b><span>服务国家</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 发展史 ==================== -->
+<section class="section section--off" id="history">
+  <div class="container">
+    <div class="section-head section-head--center reveal">
+      <p class="eyebrow">Our History</p>
+      <h2>百年发展史</h2>
+      <div class="rule"></div>
+      <p>从巴黎左岸的一间小工作室，到横跨东西方的设计事务所。时间是我们最好的作品集。</p>
+    </div>
+
+    <div class="timeline">
+
+      <article class="tl-item reveal">
+        <div class="tl-year">1924<small>Paris</small></div>
+        <div class="tl-body">
+          <h3>创立于巴黎左岸</h3>
+          <p>建筑师 Émile Blanc 在圣日耳曼大道开设第一间工作室，以住宅改造与家具设计起家，首年即完成 7 个项目。</p>
+          <span class="tl-tag">起点</span>
+        </div>
+      </article>
+
+      <article class="tl-item reveal" data-delay="60">
+        <div class="tl-year">1958<small>Reconstruction</small></div>
+        <div class="tl-body">
+          <h3>战后重建与新美学</h3>
+          <p>第二代人 Édouard Blanc 参与战后住宅重建，提出「白色作为容器」的设计主张，奠定事务所延续至今的极简基调。</p>
+          <span class="tl-tag">方法论确立</span>
+        </div>
+      </article>
+
+      <article class="tl-item reveal" data-delay="60">
+        <div class="tl-year">1986<small>Hong Kong</small></div>
+        <div class="tl-body">
+          <h3>走向东方</h3>
+          <p>于香港设立亚太首个办事处，开始将欧式比例体系与东方居住习惯结合，完成多个高端住宅与精品酒店项目。</p>
+          <span class="tl-tag">国际拓展</span>
+        </div>
+      </article>
+
+      <article class="tl-item reveal" data-delay="60">
+        <div class="tl-year">2004<small>Third Generation</small></div>
+        <div class="tl-body">
+          <h3>第三代传承</h3>
+          <p>Claire Blanc 接任设计总监，推动事务所向「全案一体化」转型，设计范畴由建筑延伸至室内、软装与艺术品陈设。</p>
+          <span class="tl-tag">全案时代</span>
+        </div>
+      </article>
+
+      <article class="tl-item reveal" data-delay="60">
+        <div class="tl-year">2016<small>Shanghai</small></div>
+        <div class="tl-body">
+          <h3>白邸中国 · 上海</h3>
+          <p>上海工作室成立，组建本土设计团队，服务范围覆盖华东、华南主要城市，累计交付项目突破 200 个。</p>
+          <span class="tl-tag">本土深耕</span>
+        </div>
+      </article>
+
+      <article class="tl-item reveal" data-delay="60">
+        <div class="tl-year">2024<small>Centenary</small></div>
+        <div class="tl-body">
+          <h3>百年纪念</h3>
+          <p>发布《白之秩序》百年作品集，并在巴黎与上海同步举办回顾展。新的百年，我们依然只做减法。</p>
+          <span class="tl-tag">百年</span>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 价格 ==================== -->
+<section class="section" id="pricing">
+  <div class="container">
+    <div class="section-head section-head--center reveal">
+      <p class="eyebrow">Pricing</p>
+      <h2>设计服务价格</h2>
+      <div class="rule"></div>
+      <p>三档服务，按需选择。所有报价均含方案汇报、施工图深化与现场交底，无隐藏费用。</p>
+    </div>
+
+    <div class="plans reveal">
+      <div class="plan">
+        <p class="plan__label">Basic</p>
+        <h3 class="plan__name">基础咨询</h3>
+        <p class="plan__desc">适合已有明确方向、只需专业校验与优化的客户。</p>
+        <p class="plan__price"><sup>¥</sup>18,000<small>起</small></p>
+        <p class="plan__note">按套内面积 80㎡ 以内计</p>
+        <ul>
+          <li>空间诊断与需求梳理</li>
+          <li>平面布局优化方案</li>
+          <li>材质与色彩建议书</li>
+          <li>2 次线上方案汇报</li>
+        </ul>
+        <a href="#contact" class="btn btn--ghost">选择方案</a>
+      </div>
+
+      <div class="plan plan--featured">
+        <p class="plan__label">Standard · 推荐</p>
+        <h3 class="plan__name">全案设计</h3>
+        <p class="plan__desc">从概念到落地，最受欢迎的一体化设计服务。</p>
+        <p class="plan__price"><sup>¥</sup>88,000<small>起</small></p>
+        <p class="plan__note">按套内面积 120㎡ 以内计</p>
+        <ul>
+          <li>包含基础咨询全部内容</li>
+          <li>全套施工图与节点深化</li>
+          <li>3D 效果图 · 不少于 12 张</li>
+          <li>软装陈设清单与采购建议</li>
+          <li>施工现场全程交底与验收</li>
+        </ul>
+        <a href="#contact" class="btn btn--solid">选择方案</a>
+      </div>
+
+      <div class="plan">
+        <p class="plan__label">Bespoke</p>
+        <h3 class="plan__name">尊享定制</h3>
+        <p class="plan__desc">别墅、会所与商业空间的全程托管式服务。</p>
+        <p class="plan__price"><sup>¥</sup>面议</p>
+        <p class="plan__note">按项目复杂度评估</p>
+        <ul>
+          <li>包含全案设计全部内容</li>
+          <li>建筑与结构改造顾问</li>
+          <li>专属主创设计师一对一</li>
+          <li>艺术品与家具定制代购</li>
+          <li>项目全周期驻场管理</li>
+        </ul>
+        <a href="#contact" class="btn btn--ghost">预约沟通</a>
+      </div>
+    </div>
+
+    <p class="plans__foot">以上为参考起价，最终报价以现场勘测与需求沟通后的正式合同为准。</p>
+  </div>
+</section>
+
+<!-- ==================== 展示 ==================== -->
+<section class="section section--off" id="gallery">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Selected Works</p>
+      <h2>作品展示</h2>
+      <div class="rule"></div>
+      <p>每一件作品，都是一次关于光、比例与留白的重新计算。</p>
+    </div>
+
+    <div class="gallery">
+
+      <figure class="g-item reveal">
+        <div class="tile">
+          <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" role="img" aria-label="左岸公寓项目图">
+            <rect width="400" height="500" fill="#f6f4f0"/>
+            <path d="M110 430V240a90 90 0 0 1 180 0v190" fill="none" stroke="#ded8ce" stroke-width="1.2"/>
+            <path d="M155 430V260a45 45 0 0 1 90 0v170" fill="none" stroke="#e8e3da"/>
+            <line x1="62" y1="430" x2="338" y2="430" stroke="#ded8ce" stroke-width="1.2"/>
+          </svg>
+        </div>
+        <figcaption>
+          <h3>左岸公寓</h3>
+          <span>Paris · 2021 · 住宅</span>
+        </figcaption>
+      </figure>
+
+      <figure class="g-item reveal" data-delay="80">
+        <div class="tile">
+          <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" role="img" aria-label="柱廊画廊项目图">
+            <rect width="400" height="500" fill="#f3f1ec"/>
+            <line x1="90" y1="110" x2="310" y2="110" stroke="#d5cfc3" stroke-width="1.4"/>
+            <line x1="90" y1="400" x2="310" y2="400" stroke="#d5cfc3" stroke-width="1.4"/>
+            <line x1="130" y1="110" x2="130" y2="400" stroke="#e2ddd4"/>
+            <line x1="200" y1="110" x2="200" y2="400" stroke="#e2ddd4"/>
+            <line x1="270" y1="110" x2="270" y2="400" stroke="#e2ddd4"/>
+          </svg>
+        </div>
+        <figcaption>
+          <h3>柱廊画廊</h3>
+          <span>Milan · 2022 · 文化空间</span>
+        </figcaption>
+      </figure>
+
+      <figure class="g-item reveal" data-delay="160">
+        <div class="tile">
+          <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" role="img" aria-label="窗格住宅项目图">
+            <rect width="400" height="500" fill="#f7f5f1"/>
+            <rect x="115" y="120" width="170" height="260" fill="none" stroke="#ded8ce"/>
+            <line x1="200" y1="120" x2="200" y2="380" stroke="#e8e3da"/>
+            <line x1="115" y1="250" x2="285" y2="250" stroke="#e8e3da"/>
+          </svg>
+        </div>
+        <figcaption>
+          <h3>窗格之家</h3>
+          <span>Shanghai · 2023 · 住宅</span>
+        </figcaption>
+      </figure>
+
+      <figure class="g-item reveal">
+        <div class="tile">
+          <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" role="img" aria-label="穹顶酒店项目图">
+            <rect width="400" height="500" fill="#f5f3ef"/>
+            <circle cx="200" cy="240" r="120" fill="none" stroke="#ded8ce"/>
+            <circle cx="200" cy="240" r="70" fill="none" stroke="#e8e3da"/>
+            <line x1="60" y1="382" x2="340" y2="382" stroke="#ded8ce"/>
+          </svg>
+        </div>
+        <figcaption>
+          <h3>穹顶精品酒店</h3>
+          <span>Vienna · 2023 · 酒店</span>
+        </figcaption>
+      </figure>
+
+      <figure class="g-item reveal" data-delay="80">
+        <div class="tile">
+          <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" role="img" aria-label="阶梯美术馆项目图">
+            <rect width="400" height="500" fill="#f4f2ee"/>
+            <path d="M80 400h70v-70h70v-70h70v-70" fill="none" stroke="#ded8ce" stroke-width="1.2"/>
+            <line x1="80" y1="400" x2="330" y2="400" stroke="#ded8ce" stroke-width="1.2"/>
+          </svg>
+        </div>
+        <figcaption>
+          <h3>阶梯美术馆</h3>
+          <span>Hangzhou · 2024 · 公共建筑</span>
+        </figcaption>
+      </figure>
+
+      <figure class="g-item reveal" data-delay="160">
+        <div class="tile">
+          <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" role="img" aria-label="弧线别墅项目图">
+            <rect width="400" height="500" fill="#f6f4f0"/>
+            <path d="M60 400C60 200 200 90 340 90" fill="none" stroke="#ded8ce" stroke-width="1.2"/>
+            <path d="M60 400C60 270 200 180 340 180" fill="none" stroke="#e8e3da"/>
+            <line x1="60" y1="400" x2="340" y2="400" stroke="#e8e3da"/>
+          </svg>
+        </div>
+        <figcaption>
+          <h3>弧线别墅</h3>
+          <span>Suzhou · 2024 · 住宅</span>
+        </figcaption>
+      </figure>
+
+    </div>
+
+    <div class="gallery__more reveal">
+      <a href="#contact" class="btn btn--ghost">预约参观完整作品集</a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 团队 ==================== -->
+<section class="section" id="team">
+  <div class="container">
+    <div class="section-head section-head--center reveal">
+      <p class="eyebrow">Our People</p>
+      <h2>核心团队</h2>
+      <div class="rule"></div>
+      <p>38 位设计师，来自 6 个国家。我们相信，好的设计来自彼此的克制与倾听。</p>
+    </div>
+
+    <div class="team">
+
+      <article class="member reveal">
+        <div class="member__avatar"><b>CB</b></div>
+        <div>
+          <h3>Claire Blanc</h3>
+          <p class="member__role">创始人 / 设计总监</p>
+          <p>巴黎国立高等建筑学院毕业，主持事务所全案设计方向，主导超过 120 个住宅与酒店项目。</p>
+        </div>
+      </article>
+
+      <article class="member reveal" data-delay="70">
+        <div class="member__avatar"><b>LW</b></div>
+        <div>
+          <h3>林 未</h3>
+          <p class="member__role">合伙人 / 建筑顾问</p>
+          <p>专注旧建筑改造与结构美学，擅长在既有框架中寻找新的空间秩序。</p>
+        </div>
+      </article>
+
+      <article class="member reveal" data-delay="140">
+        <div class="member__avatar"><b>SY</b></div>
+        <div>
+          <h3>沈 屿</h3>
+          <p class="member__role">室内设计总监</p>
+          <p>负责软装体系与材质研究，构建了事务所独有的「白 · 木 · 石 · 铜」四色材质库。</p>
+        </div>
+      </article>
+
+      <article class="member reveal" data-delay="210">
+        <div class="member__avatar"><b>AZ</b></div>
+        <div>
+          <h3>Aurélie Zhao</h3>
+          <p class="member__role">客户关系总监</p>
+          <p>负责项目全周期沟通与交付管理，确保每一份设计意图都能被准确执行落地。</p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CTA ==================== -->
+<section class="cta" id="contact">
+  <div class="reveal">
+    <p class="eyebrow">Start a Conversation</p>
+    <h2>让我们从一次安静的对话开始</h2>
+    <p>告诉我们你的空间、你的生活方式，以及你想要的那种「安静」。我们会在 24 小时内回复。</p>
+    <a href="mailto:studio@maisonblanc.com" class="btn btn--solid">预约设计咨询</a>
+
+    <div class="cta__meta">
+      <span>上海 · 静安区 武定路 111 号 3F</span>
+      <a href="tel:+862160000000">+86 21 6000 0000</a>
+      <a href="mailto:studio@maisonblanc.com">studio@maisonblanc.com</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ==================== 页脚 ==================== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+
+      <div>
+        <a href="#home" class="brand">
+          <span class="brand__mark">MB</span>
+          <span class="brand__text">
+            <strong>MAISON BLANC</strong>
+            <em>白邸设计事务所</em>
+          </span>
+        </a>
+        <p class="footer__about">
+          1924 年创立于巴黎左岸。以极简之白，构筑恒久之美。<br>
+          建筑 · 室内 · 软装 · 全案设计。
+        </p>
+      </div>
+
+      <div>
+        <h4>导航</h4>
+        <ul>
+          <li><a href="#home">首页</a></li>
+          <li><a href="#about">关于我们</a></li>
+          <li><a href="#history">发展史</a></li>
+          <li><a href="#pricing">价格方案</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>作品</h4>
+        <ul>
+          <li><a href="#gallery">全部案例</a></li>
+          <li><a href="#gallery">住宅空间</a></li>
+          <li><a href="#gallery">商业空间</a></li>
+          <li><a href="#gallery">公共建筑</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>联系</h4>
+        <ul>
+          <li><a href="mailto:studio@maisonblanc.com">studio@maisonblanc.com</a></li>
+          <li><a href="tel:+862160000000">+86 21 6000 0000</a></li>
+          <li><a href="#contact">上海 · 静安区武定路 111 号</a></li>
+          <li><a href="#contact">巴黎 · 圣日耳曼大道 26 号</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer__bottom">
+      <span>© 1924–2025 Maison Blanc Design Studio. All rights reserved.</span>
+      <span>
+        <a href="#home">隐私政策</a> &nbsp;·&nbsp; <a href="#home">使用条款</a>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ---------- 导航滚动状态 ---------- */
+  var nav = document.getElementById('nav');
+  var lastY = -1;
+  function onScroll() {
+    var y = window.scrollY || window.pageYOffset;
+    if (y === lastY) return;
+    lastY = y;
+    nav.classList.toggle('is-scrolled', y > 16);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ---------- 移动端菜单 ---------- */
+  var burger = document.getElementById('burger');
+  var panel = document.getElementById('panel');
+
+  function closePanel() {
+    burger.classList.remove('is-open');
+    panel.classList.remove('is-open');
+    burger.setAttribute('aria-expanded', 'false');
+    burger.setAttribute('aria-label', '打开菜单');
+  }
+
+  burger.addEventListener('click', function () {
+    var open = panel.classList.toggle('is-open');
+    burger.classList.toggle('is-open', open);
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    burger.setAttribute('aria-label', open ? '关闭菜单' : '打开菜单');
+  });
+
+  panel.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', closePanel);
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closePanel();
+  });
+
+  window.addEventListener('resize', function () {
+    if (window.innerWidth > 980) closePanel();
+  });
+
+  /* ---------- 滚动显现动画 ---------- */
+  var revealEls = document.querySelectorAll('.reveal');
+
+  if ('IntersectionObserver' in window) {
+    var revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          var el = entry.target;
+          var delay = parseInt(el.getAttribute('data-delay') || '0', 10);
+          el.style.transitionDelay = delay + 'ms';
+          el.classList.add('in');
+          revealObserver.unobserve(el);
+        }
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: '0px 0px -70px 0px'
+    });
+
+    revealEls.forEach(function (el) { revealObserver.observe(el); });
+  } else {
+    revealEls.forEach(function (el) { el.classList.add('in'); });
+  }
+
+  /* ---------- 导航高亮当前区块 ---------- */
+  var sections = Array.prototype.slice.call(document.querySelectorAll('main section[id]'));
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav__links a'));
+
+  function setActive(id) {
+    navLinks.forEach(function (link) {
+      link.classList.toggle('is-active', link.getAttribute('href') === '#' + id);
+    });
+  }
+
+  if ('IntersectionObserver' in window && sections.length) {
+    var spy = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) setActive(entry.target.id);
+      });
+    }, {
+      rootMargin: '-45% 0px -50% 0px',
+      threshold: 0
+    });
+    sections.forEach(function (s) { spy.observe(s); });
+  }
+
+  /* ---------- 平滑滚动（兼容处理） ---------- */
+  document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var href = link.getAttribute('href');
+      if (!href || href === '#') return;
+      var target = document.querySelector(href);
+      if (!target) return;
+      e.preventDefault();
+      var offset = window.innerWidth <= 980 ? 76 : 88;
+      var top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo({ top: top, behavior: reduce ? 'auto' : 'smooth' });
+      history.replaceState(null, '', href);
+    });
+  });
+
+})();
+</script>
+</body>
+</html>

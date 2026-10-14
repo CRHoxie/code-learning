@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>TH's first website</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body{
+            background-color: bisque;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+           line-height: 1.5; 
+        }
+        h1{
+            text-align: left;
+            color: black;
+            border-left: 5px solid red ;
+            padding-left: 5px;
+        }
+        p{
+            margin-top: 15px;
+        }
+        .form-group{
+            background-color: beige;
+            padding: 15px;
+            border-radius: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        label{
+            display: block;
+            margin-bottom: 8px;
+        }
+        input[type="text"],
+        textarea{
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        textarea{
+            min-width: vertical;
+            resize: 100px;
+        }
+        button{
+            display: block;
+            width: 100%;
+            padding: 18px;
+            font-size: 18px;
+            font-weight: bold;
+            color: black;
+            background-color:beige;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom : 30px;
+
+        }
+        #messageList{
+            background-color: aquamarine;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            min-height: auto;
+            color: #ccc;
+            text-align: center;
+            line-height: 150px;
+
+        }
+ 
+    </style>
+</head>
+<script>
+    let messages = [];
+    let saved = localStorage.getItem("messages");
+    if (saved){
+        messages = JSON.parse(saved);
+    }
+    function render(){
+        let list = document.getElementById("messageList");
+        list.innerHTML = " ";
+
+        if(messages.length === 0);
+        {
+            list.innerHTML="<p style= 'color: black;'>暂时没有留言哦...</p>";
+            return;
+        }
+        for (let i = 0; i < messages.length;i++)
+        {
+            let msg =messages[i];
+            let card = document.createElement("div");
+            card.style.cssText = "blackground:#fff; pading:10px; border-radius:8px; margin-bottom:10px; text-align;left; line-hight:1.5;";
+            card.innerHTML = `
+                <strong>${msg.name}</steong>
+                <span style="color:#fff; font-size:12px; margin-left:10px;">${msg.time}</span>
+                <p style="margin:5px 0 0; color:#333;">${msg.content}
+
+            `
+
+        }
+
+    }
+
+
+</script>
+<body>
+    <h1>这个人很懒什么也没留下.......</h1>
+    <p>看到网站成功运行非常得激动（￣︶￣）↗　</p>
+    <p>这个网站只是实验一下,应该会持续一个月吧(才不是免费服务器只有一个月呢)</p>
+    <p>这几天在军训,慢慢维护这个网站吧.</p>
+    <button id="dogwolf" style="color: red;">Don't click me</button>
+    <h2>以下为简易留言板（后端暂时没写（＞︿＜），所以用不了）</h2>
+    <div class="form-group">
+        <label for="nameInput">昵称:</label>
+        <input type="text" id="nameInput" placeholder="请输入昵称">
+    </div>
+
+    <div class="form-group">
+        <label for="messageInput">留言信息：</label>
+        <textarea id="messageInput" placeholder="请输入留言信息"></textarea>
+    </div>
+    <button id="submitBtn">提交留言</button>
+    <div id="messageList">
+
+    </div>
+</body>
+</html>

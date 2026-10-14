@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>展示 · 全部作品 | 精致家具 EXQUISITE FURNITURE</title>
+<meta name="description" content="精致家具全部作品展示。手工实木家具，每一件都配有材质与设计说明。" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ============ 基础 ============ */
+:root{
+  --white:#ffffff;
+  --off:#faf9f7;
+  --ink:#1b1b1b;
+  --ink-soft:#57544e;
+  --muted:#9c988f;
+  --line:#eae7e1;
+  --line-strong:#ddd8cf;
+  --gold:#b08d57;
+  --serif:'Cormorant Garamond','Songti SC','STSong',Georgia,'Times New Roman',serif;
+  --sans:'Jost','Helvetica Neue',Helvetica,'PingFang SC','Microsoft YaHei',Arial,sans-serif;
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  font-family:var(--sans);font-weight:300;font-size:15px;line-height:1.8;
+  color:var(--ink);background:var(--white);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;background:none;border:0;cursor:pointer;color:inherit}
+::selection{background:#efe7d9;color:var(--ink)}
+
+::-webkit-scrollbar{width:9px}
+::-webkit-scrollbar-track{background:#faf9f7}
+::-webkit-scrollbar-thumb{background:#e0dcd4}
+::-webkit-scrollbar-thumb:hover{background:#cdc7bd}
+
+/* ============ 布局工具 ============ */
+.container{max-width:1280px;margin:0 auto;padding:0 44px}
+.section{padding:140px 0;position:relative;scroll-margin-top:88px}
+.section--off{background:var(--off)}
+
+.eyebrow{font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);font-weight:400;margin-bottom:22px}
+h1,h2,h3,h4{font-family:var(--serif);font-weight:400;line-height:1.15;letter-spacing:.005em}
+h2{font-size:clamp(2rem,3.6vw,3.1rem)}
+h3{font-size:1.4rem}
+
+.section-head{max-width:720px;margin-bottom:76px}
+.section-head p{color:var(--ink-soft);margin-top:22px;font-size:15px;max-width:560px}
+.section-head--center{margin-left:auto;margin-right:auto;text-align:center}
+.section-head--center p{margin-left:auto;margin-right:auto}
+
+.rule{width:56px;height:1px;background:var(--line-strong);margin:26px 0}
+.section-head--center .rule{margin-left:auto;margin-right:auto}
+
+/* ============ 图片占位 ============ */
+.ph{position:relative;background:#f6f4f0;overflow:hidden}
+.ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1.1s var(--ease)}
+.ph.is-empty::before{
+  content:attr(data-num);position:absolute;inset:0;
+  display:grid;place-items:center;
+  font-family:var(--serif);font-size:2.4rem;color:#d9d3c8;letter-spacing:.06em;
+}
+.ph.is-empty{box-shadow:inset 0 0 0 1px var(--line)}
+.ph.is-empty img{display:none}
+.ph:hover img{transform:scale(1.045)}
+
+/* ============ 按钮 ============ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:12px;
+  padding:17px 38px;font-size:11px;font-weight:400;
+  letter-spacing:.2em;text-transform:uppercase;
+  border:1px solid var(--ink);background:transparent;color:var(--ink);
+  transition:background .45s var(--ease),color .45s var(--ease),border-color .45s var(--ease);
+  white-space:nowrap;
+}
+.btn--solid{background:var(--ink);color:#fff}
+.btn--solid:hover{background:transparent;color:var(--ink)}
+.btn--ghost:hover{background:var(--ink);color:#fff}
+
+/* ============ 导航 ============ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  background:rgba(255,255,255,.82);
+  -webkit-backdrop-filter:saturate(180%) blur(16px);
+  backdrop-filter:saturate(180%) blur(16px);
+  border-bottom:1px solid transparent;
+  transition:border-color .5s var(--ease),background .5s var(--ease);
+}
+.nav.is-scrolled{border-bottom-color:var(--line);background:rgba(255,255,255,.94)}
+.nav__inner{
+  max-width:1280px;margin:0 auto;padding:0 44px;height:88px;
+  display:flex;align-items:center;justify-content:space-between;gap:36px;
+}
+.brand{display:flex;align-items:center;gap:14px;flex:none}
+.brand__mark{
+  width:40px;height:40px;flex:none;border:1px solid var(--line-strong);
+  display:grid;place-items:center;
+  font-family:var(--serif);font-size:17px;letter-spacing:.02em;color:var(--ink);
+  transition:border-color .45s var(--ease),background .45s var(--ease),color .45s var(--ease);
+}
+.brand:hover .brand__mark{background:var(--ink);color:#fff;border-color:var(--ink)}
+.brand__text{display:flex;flex-direction:column;line-height:1.25}
+.brand__text strong{font-family:var(--serif);font-size:16px;font-weight:500;letter-spacing:.18em}
+.brand__text em{font-style:normal;font-size:10px;letter-spacing:.28em;color:var(--muted);text-transform:uppercase}
+
+.nav__links{display:flex;align-items:center;gap:38px;margin-left:auto}
+.nav__links a{
+  position:relative;font-size:12px;letter-spacing:.16em;color:var(--ink-soft);
+  padding:6px 0;transition:color .35s var(--ease);
+}
+.nav__links a::after{
+  content:'';position:absolute;left:0;bottom:0;width:100%;height:1px;background:var(--ink);
+  transform:scaleX(0);transform-origin:right;transition:transform .5s var(--ease);
+}
+.nav__links a:hover{color:var(--ink)}
+.nav__links a:hover::after{transform:scaleX(1);transform-origin:left}
+.nav__links a.is-active{color:var(--ink)}
+.nav__links a.is-active::after{transform:scaleX(1);background:var(--gold)}
+
+.nav__cta{
+  flex:none;font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  border:1px solid var(--line-strong);padding:12px 26px;transition:.45s var(--ease);
+}
+.nav__cta:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.nav__burger{display:none;width:40px;height:40px;flex-direction:column;justify-content:center;gap:6px;align-items:flex-end}
+.nav__burger span{display:block;height:1px;width:24px;background:var(--ink);transition:.4s var(--ease)}
+.nav__burger span:last-child{width:16px}
+.nav__burger.is-open span:first-child{transform:translateY(3.5px) rotate(45deg);width:24px}
+.nav__burger.is-open span:last-child{transform:translateY(-3.5px) rotate(-45deg);width:24px}
+
+.nav__panel{
+  display:none;position:fixed;top:88px;left:0;right:0;z-index:190;
+  background:#fff;border-bottom:1px solid var(--line);
+  padding:24px 44px 34px;flex-direction:column;
+  max-height:calc(100vh - 88px);overflow-y:auto;
+}
+.nav__panel.is-open{display:flex;animation:panelIn .45s var(--ease)}
+@keyframes panelIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+.nav__panel a{padding:16px 0;border-bottom:1px solid var(--line);font-size:13px;letter-spacing:.14em;color:var(--ink-soft)}
+.nav__panel a:hover{color:var(--ink)}
+
+/* ============ 页面头图 ============ */
+.pagehead{
+  position:relative;padding:200px 44px 110px;
+  text-align:center;overflow:hidden;background:var(--white);
+}
+.pagehead__frame{position:absolute;inset:32px 32px 0;border:1px solid #f2efe9;border-bottom:0;pointer-events:none}
+.pagehead__watermark{
+  position:absolute;top:56%;left:50%;transform:translate(-50%,-50%);
+  font-family:var(--serif);font-weight:500;
+  font-size:min(24vw,340px);line-height:1;letter-spacing:.02em;
+  color:#f7f5f1;white-space:nowrap;pointer-events:none;user-select:none;z-index:0;
+}
+.pagehead__inner{position:relative;z-index:2;max-width:780px;margin:0 auto}
+.pagehead h1{
+  font-size:clamp(2.4rem,5.4vw,4.4rem);
+  line-height:1.08;letter-spacing:.04em;margin-bottom:26px;
+}
+.pagehead h1 em{font-style:italic;color:var(--gold)}
+.pagehead p{color:var(--ink-soft);max-width:560px;margin:0 auto;font-size:15.5px;line-height:2}
+.pagehead__crumb{
+  margin-top:44px;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);
+}
+.pagehead__crumb a{transition:color .35s var(--ease)}
+.pagehead__crumb a:hover{color:var(--ink)}
+.pagehead__crumb span{margin:0 12px;color:var(--line-strong)}
+
+/* ============ 筛选栏 ============ */
+.filters{
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  background:var(--off);
+}
+.filters__inner{
+  max-width:1280px;margin:0 auto;padding:0 44px;
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  min-height:76px;
+}
+.filters__label{
+  font-size:10.5px;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--muted);margin-right:22px;
+}
+.filter{
+  font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;
+  padding:9px 20px;border:1px solid transparent;color:var(--ink-soft);
+  transition:.4s var(--ease);
+}
+.filter:hover{color:var(--ink);border-color:var(--line-strong)}
+.filter.is-active{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+/* ============ 展示网格 ============ */
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);column-gap:28px;row-gap:64px}
+
+.work{display:block}
+.work.is-hidden{display:none}
+.work .ph{aspect-ratio:4/5}
+.work .ph__idx{
+  position:absolute;top:16px;left:16px;z-index:3;
+  font-family:var(--serif);font-size:12px;letter-spacing:.14em;
+  color:#fff;background:rgba(27,27,27,.55);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+  padding:4px 12px;
+  transition:background .5s var(--ease);
+}
+.work:hover .ph__idx{background:rgba(176,141,87,.9)}
+.work figcaption{padding-top:22px}
+.work__cat{
+  font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:10px;
+}
+.work h3{font-size:1.2rem;margin-bottom:10px}
+.work p.desc{font-size:13.5px;color:var(--muted);line-height:1.9}
+.work__meta{
+  margin-top:16px;padding-top:14px;border-top:1px solid var(--line);
+  display:flex;gap:26px;flex-wrap:wrap;
+  font-size:11.5px;color:var(--muted);letter-spacing:.06em;
+}
+.work__meta b{
+  font-weight:400;color:var(--ink-soft);font-size:10px;
+  letter-spacing:.16em;text-transform:uppercase;margin-right:7px;
+}
+
+/* ============ 空状态 / 加载更多 ============ */
+.gallery__foot{text-align:center;margin-top:90px}
+.gallery__count{
+  font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:26px;
+}
+
+/* ============ CTA ============ */
+.cta{text-align:center;padding:150px 44px;border-top:1px solid var(--line);background:var(--white)}
+.cta h2{max-width:760px;margin:0 auto 26px}
+.cta p{color:var(--ink-soft);max-width:520px;margin:0 auto 46px}
+.cta__meta{
+  margin-top:52px;display:flex;gap:56px;justify-content:center;flex-wrap:wrap;
+  font-size:12.5px;letter-spacing:.1em;color:var(--muted);
+}
+.cta__meta a{border-bottom:1px solid var(--line-strong);padding-bottom:3px;transition:.35s var(--ease)}
+.cta__meta a:hover{color:var(--ink);border-color:var(--ink)}
+
+/* ============ 页脚 ============ */
+.footer{background:#141414;color:#a9a49c;padding:96px 0 40px}
+.footer__grid{
+  display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:56px;
+  padding-bottom:70px;border-bottom:1px solid rgba(255,255,255,.09);
+}
+.footer .brand__mark{border-color:rgba(255,255,255,.22);color:#fff}
+.footer .brand__text strong{color:#fff}
+.footer .brand__text em{color:#6f6a63}
+.footer__about{margin-top:26px;font-size:13.5px;line-height:2;max-width:300px;color:#8b867e}
+.footer h4{
+  font-family:var(--sans);font-size:10.5px;font-weight:400;
+  letter-spacing:.28em;text-transform:uppercase;color:#6f6a63;margin-bottom:26px;
+}
+.footer ul{list-style:none}
+.footer li{margin-bottom:14px}
+.footer li a{font-size:13.5px;color:#a9a49c;transition:color .35s var(--ease)}
+.footer li a:hover{color:#fff}
+.footer__bottom{
+  padding-top:36px;display:flex;justify-content:space-between;align-items:center;
+  gap:24px;flex-wrap:wrap;font-size:11.5px;letter-spacing:.1em;color:#6f6a63;
+}
+.footer__bottom a:hover{color:#fff}
+
+/* ============ 滚动显现 ============ */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 1s var(--ease),transform 1s var(--ease);will-change:opacity,transform}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  .reveal{opacity:1;transform:none;transition:none}
+  html{scroll-behavior:auto}
+}
+
+/* ============ 响应式 ============ */
+@media (max-width:1180px){
+  .nav__links{gap:26px}
+}
+@media (max-width:980px){
+  .nav__links,.nav__cta{display:none}
+  .nav__burger{display:flex}
+  .nav__inner{height:76px;padding:0 30px}
+  .nav__panel{top:76px;padding:20px 30px 30px}
+  .container{padding:0 30px}
+  .section{padding:104px 0;scroll-margin-top:76px}
+
+  .pagehead{padding:160px 30px 90px}
+  .pagehead__frame{inset:20px 20px 0}
+
+  .filters__inner{padding:0 30px;min-height:auto;padding-top:18px;padding-bottom:18px}
+  .filters__label{width:100%;margin:0 0 10px}
+
+  .gallery{grid-template-columns:repeat(2,1fr);column-gap:22px;row-gap:50px}
+
+  .footer__grid{grid-template-columns:1fr 1fr;gap:48px 40px}
+  .footer__about{max-width:100%}
+}
+@media (max-width:640px){
+  body{font-size:14.5px}
+  .container{padding:0 22px}
+  .nav__inner{padding:0 22px}
+  .nav__panel{padding:16px 22px 26px}
+  .section{padding:84px 0}
+  .section-head{margin-bottom:52px}
+
+  .pagehead{padding:140px 22px 76px}
+  .pagehead__frame{inset:12px 12px 0}
+  .pagehead__watermark{font-size:34vw}
+  .pagehead h1{margin-bottom:20px}
+  .pagehead__crumb{margin-top:32px}
+
+  .filters__inner{padding:14px 22px}
+  .filter{padding:8px 14px;font-size:11px}
+
+  .gallery{grid-template-columns:1fr;row-gap:48px}
+
+  .cta{padding:96px 22px}
+  .cta__meta{gap:20px 32px;flex-direction:column;align-items:center}
+  .footer{padding:72px 0 32px}
+  .footer__grid{grid-template-columns:1fr;gap:44px}
+  .footer__bottom{flex-direction:column;align-items:flex-start;gap:14px}
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== 导航 ==================== -->
+<header class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="brand" aria-label="精致家具 首页">
+      <span class="brand__mark">精</span>
+      <span class="brand__text">
+        <strong>精致家具</strong>
+        <em>Exquisite Furniture</em>
+      </span>
+    </a>
+
+    <nav class="nav__links" aria-label="主导航">
+      <a href="index.html">首页</a>
+      <a href="index.html#featured">热门家具</a>
+      <a href="gallery.html" class="is-active">展示</a>
+      <a href="index.html#pricing">价格</a>
+      <a href="index.html#contact">联系</a>
+    </nav>
+
+    <a href="index.html#contact" class="nav__cta">预约到店</a>
+
+    <button class="nav__burger" id="burger" aria-label="打开菜单" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+  </div>
+
+  <div class="nav__panel" id="panel">
+    <a href="index.html">首页</a>
+    <a href="index.html#featured">热门家具</a>
+    <a href="gallery.html">展示页面</a>
+    <a href="index.html#pricing">价格方案</a>
+    <a href="index.html#contact">预约到店</a>
+  </div>
+</header>
+
+<main>
+
+<!-- ==================== 页面头图 ==================== -->
+<section class="pagehead">
+  <div class="pagehead__frame" aria-hidden="true"></div>
+  <div class="pagehead__watermark" aria-hidden="true">GALLERY</div>
+
+  <div class="pagehead__inner">
+    <p class="eyebrow">All Works · 全部作品</p>
+    <h1>家具<em>展示</em></h1>
+    <p>
+      这里陈列着我们做过的每一件家具。点击分类可快速筛选，
+      每件作品下方都附有材质、尺寸与设计说明。
+    </p>
+    <p class="pagehead__crumb">
+      <a href="index.html">首页</a><span>/</span>展示
+    </p>
+  </div>
+</section>
+
+<!-- ==================== 筛选栏 ==================== -->
+<div class="filters">
+  <div class="filters__inner">
+    <span class="filters__label">分类筛选</span>
+    <button class="filter is-active" data-filter="all">全部</button>
+    <button class="filter" data-filter="seat">座椅</button>
+    <button class="filter" data-filter="table">桌几</button>
+    <button class="filter" data-filter="storage">柜类</button>
+    <button class="filter" data-filter="light">灯具</button>
+    <button class="filter" data-filter="decor">陈设</button>
+  </div>
+</div>
+
+<!-- ==================== 展示网格 ==================== -->
+<section class="section">
+  <div class="container">
+
+    <div class="gallery" id="gallery">
+
+      <!-- 09 -->
+      <figure class="work reveal" data-cat="seat">
+        <div class="ph" data-num="9">
+          <span class="ph__idx">09</span>
+          <img src="9.png" alt="云舒 · 单人休闲椅" />
+        </div>
+        <figcaption>
+          <p class="work__cat">座椅 · Seat</p>
+          <h3>云舒 · 单人休闲椅</h3>
+          <p class="desc">
+            靠背与坐面一体成型的曲面，贴合腰背自然弧度。椅腿采用细径实木，
+            视觉上轻盈到几乎消失，坐下时却异常稳定。适合放在书房一角或落地窗旁。
+          </p>
+          <div class="work__meta">
+            <span><b>材质</b>白蜡木 · 羊毛混纺</span>
+            <span><b>尺寸</b>W620 × D680 × H740 mm</span>
+          </div>
+        </figcaption>
+      </figure>
+
+      <!-- 10 -->
+      <figure class="work reveal" data-cat="table">
+        <div class="ph" data-num="10">
+          <span class="ph__idx">10</span>
+          <img src="10.png" alt="止水 · 圆边几" />
+        </div>
+        <figcaption>
+          <p class="work__cat">桌几 · Table</p>
+          <h3>止水 · 圆边几</h3>
+          <p class="desc">
+            圆形的台面没有任何棱角，边缘手工倒圆，指腹滑过是一整条连续的弧线。
+            三条内收桌腿让它在空间中显得安静，适合放在沙发旁放一杯茶。
+          </p>
+          <div class="work__meta">
+            <span><b>材质</b>黑胡桃木 · 天然木蜡油</span>
+            <span><b>尺寸</b>Ø520 × H560 mm</span>
+          </div>
+        </figcaption>
+      </figure>
+
+      <!-- 11 -->
+      <figure class="work reveal" data-cat="storage">
+        <div class="ph" data-num="11">
+          <span class="ph__idx">11</span>
+          <img src="11.png" alt="归藏 · 四门衣柜" />
+        </div>
+        <figcaption>
+          <p class="work__cat">柜类 · Storage</p>
+          <h3>归藏 · 四门衣柜</h3>
+          <p class="desc">
+            柜门以 45 度斜切拼接，闭合时只留下一条极细的缝线。内部按衣物长度分区，
+            挂杆、抽屉与层板可自由调整，不浪费任何一寸空间。
+          </p>
+          <div class="work__meta">
+            <span><b>材质</b>橡木 · 哑光漆面</span>
+            <span><b>尺寸</b>W2000 × D600 × H2200 mm</span>
+          </div>
+        </figcaption>
+      </figure>
+
+      <!-- 12 -->
+      <figure class="work reveal" data-cat="light">
+        <div class="ph" data-num="12">
+          <span class="ph__idx">12</span>
+          <img src="12.png" alt="月白 · 纸艺吊灯" />
+        </div>
+        <figcaption>
+          <p class="work__cat">灯具 · Light</p>
+          <h3>月白 · 纸艺吊灯</h3>
+          <p class="desc">
+            手工宣纸一层层裱糊在实木骨架上，光线透过纸纤维后被彻底柔化，
+            开灯后整盏灯像一个发光的茧。适合餐桌上方或楼梯间挑空处。
+          </p>
+          <div class="work__meta">
+            <span><b>材质</b>实木骨架 · 手工宣纸</span>
+            <span><b>尺寸</b>Ø450 × H380 mm</span>
+          </div>
+        </figcaption>
+      </figure>
+
+      <!-- 13 -->
+      <figure class="work reveal" data-cat="seat">
+        <div class="ph" data-num="13">
+          <span class="ph__idx">13</span>
+          <img src="13.png" alt="长物 · 藤编靠椅" />
+        </div>
+        <figcaption>
+          <p class="work__cat">座椅 · Seat</p>
+          <h3>长物 · 藤编靠椅</h3>
+          <p class="desc">
+            靠背以天然藤条手工编织，透气、轻盈，夏天靠上去也不会闷。
+            木框与藤面之间留有一圈阴影线，让整张椅子看起来像悬空一样。
+          </p>
+          <div class="work__meta">
+            <span><b>材质</b>白蜡木 · 天然藤编</span>
+            <span><b>尺寸</b>W580 × D600 × H800 mm</span>
+          </div>
+        </figcaption>
+      </figure>
+
+      <!-- 14 -->
+      <figure class="work reveal" data-cat="table">
+        <div class="ph" data-num="14">
+          <span class="ph__idx">14</span>
+          <img src="14.png" alt="砚石 · 大理石茶几" />
+        </div>
+        <figcaption>
+          <p class="work__cat">桌几 · Table</p>
+          <h3>砚石 · 大理石茶几</h3>
+          <p class="desc">
+            一整块天然大理石台面，纹理无法复制，每一张都不同。边缘做 5 度倒角，
+            既保留石材的厚重感，又不会磕手。下方配实木收纳层，可放杂志与遥控器。
+          </p>
+          <div class="work__meta">
+            <span><b>材质</b>天然大理石 · 黑胡桃木</span>
+            <span><b>尺寸</b>L1200 × W600 × H380 mm</span>
+          </div>
+        </figcaption>
+      </figure>
+
+      <!-- 15 -->
+      <figure class="work reveal" data-cat="decor">
+        <div class="ph" data-num="15">
+          <span class="ph__idx">15</span>
+          <img src="15.png" alt="栖迟 · 玄关衣帽架" />
+        </div>
+        <figcaption>
+          <p class="work__cat">陈设 · Decor</p>
+          <h3>栖迟 · 玄关衣帽架</h3>
+          <p class="desc">
+            三根实木立柱以黄铜连接件固定，无需上墙也不占地面。挂衣、置伞、放包，
+            进门第一眼就有秩序。底座加重处理，挂满冬衣也不会倾倒。
+          </p>
+          <div class="work__meta">
+            <span><b>材质</b>白蜡木 · 黄铜配件</span>
+            <span><b>尺寸</b>Ø480 × H1750 mm</span>
+          </div>
+        </figcaption>
+      </figure>
+
+      <!-- 16 -->
+      <figure class="work reveal" data-cat="storage">
+        <div class="ph" data-num="16">
+          <span class="ph__idx">16</span>
+          <img src="16.png" alt="不语 · 矮边柜" />
+        </div>
+        <figcaption>
+          <p class="work__cat">柜类 · Storage</p>
+          <h3>不语 · 矮边柜</h3>
+          <p class="desc">
+            没有把手，靠柜门下沿的斜切凹槽开合，手指伸进去轻轻一勾就能打开。
+            台面高度刚好与沙发扶手齐平，可以放台灯、书和一盆小植物。
+          </p>
+          <div class="work__meta">
+            <span><b>材质</b>橡木 · 哑光漆面</span>
+            <span><b>尺寸</b>L1600 × D420 × H650 mm</span>
+          </div>
+        </figcaption>
+      </figure>
+
+      <!-- 17 -->
+      <figure class="work reveal" data-cat="light">
+        <div class="ph" data-num="17">
+          <span class="ph__idx">17</span>
+          <img src="17.png" alt="低语 · 黄铜壁灯" />
+        </div>
+        <figcaption>
+          <p class="work__cat">灯具 · Light</p>
+          <h3>低语 · 黄铜壁灯</h3>
+          <p class="desc">
+            灯罩是一整片黄铜弯折而成，表面做拉丝处理，不反光、不刺眼。
+            光线只向下照，适合卧室床头或走廊，夜里起身不会打扰身边的人。
+          </p>
+          <div class="work__meta">
+            <span><b>材质</b>黄铜 · 实木底座</span>
+            <span><b>尺寸</b>W120 × D160 × H240 mm</span>
+          </div>
+        </figcaption>
+      </figure>
+
+      <!-- 18 -->
+      <figure class="work reveal" data-cat="seat">
+        <div class="ph" data-num="18">
+          <span class="ph__idx">18</span>
+          <img src="18.png" alt="行止 · 长条凳" />
+        </div>
+        <figcaption>
+          <p class="work__cat">座椅 · Seat</p>
+          <h3>行止 · 长条凳</h3>
+          <p class="desc">
+            整块实木一次成型，没有拼接缝。可以放在床尾当坐凳，也可以拉到餐桌旁
+            多坐两个人。凳面微微内凹，久坐不累。
+          </p>
+          <div class="work__meta">
+            <span><b>材质</b>黑胡桃木 · 木蜡油</span>
+            <span><b>尺寸</b>L1400 × W380 × H450 mm</span>
+          </div>
+        </figcaption>
+      </figure>
+
+      <!-- 19 -->
+      <figure class="work reveal" data-cat="table">
+        <div class="ph" data-num="19">
+          <span class="ph__idx">19</span>
+          <img src="19.png" alt="案头 · 书桌" />
+        </div>
+        <figcaption>
+          <p class="work__cat">桌几 · Table</p>
+          <h3>案头 · 书桌</h3>
+          <p class="desc">
+            桌面下方做了一个隐藏式走线槽，所有电源线和充电线都可以收进去，
+            桌面永远干净。抽屉无拉手，轻按即开，适合放在卧室或书房。
+          </p>
+          <div class="work__meta">
+            <span><b>材质</b>白蜡木 · 黄铜导轨</span>
+            <span><b>尺寸</b>L1400 × W650 × H750 mm</span>
+          </div>
+        </figcaption>
+      </figure>
+
+      <!-- 20 -->
+      <figure class="work reveal" data-cat="decor">
+        <div class="ph" data-num="20">
+          <span class="ph__idx">20</span>
+          <img src="20.png" alt="素几 · 花器边架" />
+        </div>
+        <figcaption>
+          <p class="work__cat">陈设 · Decor</p>
+          <h3>素几 · 花器边架</h3>
+          <p class="desc">
+            三层错落的实木边架，高度依次递减，可放花器、香薰和几本书。
+            结构只靠四根立柱支撑，从侧面看几乎是一条线，适合放在沙发与墙之间的窄缝。
+          </p>
+          <div class="work__meta">
+            <span><b>材质</b>橡木 · 天然木蜡油</span>
+            <span><b>尺寸</b>W420 × D300 × H1100 mm</span>
+          </div>
+        </figcaption>
+      </figure>
+
+    </div>
+
+    <!-- 底部计数与返回 -->
+    <div class="gallery__foot reveal">
+      <p class="gallery__count" id="count">共 12 件作品</p>
+      <a href="index.html#contact" class="btn btn--solid">预约到店 · 亲身体验</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ==================== CTA ==================== -->
+<section class="cta">
+  <div class="reveal">
+    <p class="eyebrow">Visit Our Showroom</p>
+    <h2>照片拍不出的质感<br>需要您亲自来感受</h2>
+    <p>坐一次，摸一次木纹。我们相信身体比眼睛更诚实。</p>
+    <a href="index.html#contact" class="btn btn--solid">预约到店</a>
+
+    <div class="cta__meta">
+      <span>上海 · 静安区 武定路 111 号 1F 展厅</span>
+      <a href="tel:+862160000000">+86 21 6000 0000</a>
+      <a href="mailto:hello@jingzhifurniture.com">hello@jingzhifurniture.com</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ==================== 页脚 ==================== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+
+      <div>
+        <a href="index.html" class="brand">
+          <span class="brand__mark">精</span>
+          <span class="brand__text">
+            <strong>精致家具</strong>
+            <em>Exquisite Furniture</em>
+          </span>
+        </a>
+        <p class="footer__about">
+          1998 年创立，专注手工实木家具。<br>
+          以极简之形，做经得起时间的家具。<br>
+          沙发 · 餐桌 · 柜类 · 椅凳 · 灯具。
+        </p>
+      </div>
+
+      <div>
+        <h4>导航</h4>
+        <ul>
+          <li><a href="index.html">首页</a></li>
+          <li><a href="index.html#featured">热门家具</a></li>
+          <li><a href="gallery.html">展示页面</a></li>
+          <li><a href="index.html#pricing">价格方案</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>产品</h4>
+        <ul>
+          <li><a href="gallery.html">沙发 / 座椅</a></li>
+          <li><a href="gallery.html">桌几类</a></li>
+          <li><a href="gallery.html">柜类收纳</a></li>
+          <li><a href="gallery.html">灯具 / 陈设</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>联系</h4>
+        <ul>
+          <li><a href="mailto:hello@jingzhifurniture.com">hello@jingzhifurniture.com</a></li>
+          <li><a href="tel:+862160000000">+86 21 6000 0000</a></li>
+          <li><a href="index.html#contact">上海 · 静安区武定路 111 号 1F</a></li>
+          <li><a href="index.html#contact">展厅营业 10:00 – 20:00</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer__bottom">
+      <span>© 1998–2025 精致家具 JINGZHI FURNITURE. All rights reserved.</span>
+      <span>
+        <a href="index.html">隐私政策</a> &nbsp;·&nbsp; <a href="index.html">使用条款</a>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ---------- 图片加载失败 → 显示编号占位 ---------- */
+  (function guardImages() {
+    document.querySelectorAll('.ph img').forEach(function (img) {
+      function fail() {
+        var box = img.closest('.ph');
+        if (box) box.classList.add('is-empty');
+      }
+      if (img.complete && img.naturalWidth === 0) fail();
+      img.addEventListener('error', fail);
+    });
+  })();
+
+  /* ---------- 导航滚动状态 ---------- */
+  var nav = document.getElementById('nav');
+  var lastY = -1;
+  function onScroll() {
+    var y = window.scrollY || window.pageYOffset;
+    if (y === lastY) return;
+    lastY = y;
+    nav.classList.toggle('is-scrolled', y > 16);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ---------- 移动端菜单 ---------- */
+  var burger = document.getElementById('burger');
+  var panel = document.getElementById('panel');
+
+  function closePanel() {
+    burger.classList.remove('is-open');
+    panel.classList.remove('is-open');
+    burger.setAttribute('aria-expanded', 'false');
+    burger.setAttribute('aria-label', '打开菜单');
+  }
+
+  burger.addEventListener('click', function () {
+    var open = panel.classList.toggle('is-open');
+    burger.classList.toggle('is-open', open);
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    burger.setAttribute('aria-label', open ? '关闭菜单' : '打开菜单');
+  });
+
+  panel.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', closePanel);
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closePanel();
+  });
+
+  window.addEventListener('resize', function () {
+    if (window.innerWidth > 980) closePanel();
+  });
+
+  /* ---------- 滚动显现 ---------- */
+  var revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          var el = entry.target;
+          var delay = parseInt(el.getAttribute('data-delay') || '0', 10);
+          el.style.transitionDelay = delay + 'ms';
+          el.classList.add('in');
+          revealObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -70px 0px' });
+    revealEls.forEach(function (el) { revealObserver.observe(el); });
+  } else {
+    revealEls.forEach(function (el) { el.classList.add('in'); });
+  }
+
+  /* ---------- 分类筛选 + 计数 ---------- */
+  var filters = document.querySelectorAll('.filter');
+  var works = Array.prototype.slice.call(document.querySelectorAll('.work'));
+  var countEl = document.getElementById('count');
+
+  function applyFilter(cat) {
+    var visible = 0;
+    works.forEach(function (item) {
+      var match = (cat === 'all') || (item.getAttribute('data-cat') === cat);
+      item.classList.toggle('is-hidden', !match);
+      if (match) visible++;
+    });
+    countEl.textContent = '共 ' + visible + ' 件作品';
+  }
+
+  filters.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      filters.forEach(function (b) { b.classList.remove('is-active'); });
+      btn.classList.add('is-active');
+      applyFilter(btn.getAttribute('data-filter'));
+    });
+  });
+
+  applyFilter('all');
+
+})();
+</script>
+</body>
+</html>
