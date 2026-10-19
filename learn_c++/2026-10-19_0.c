@@ -5,7 +5,7 @@
 
 输出格式:
 在一行中输出兔子总数达到N最少需要的月数。*/
-#include<stdio.h>
+#include <stdio.h>
 int main(){
     int first = 1;
     int second = 1;
