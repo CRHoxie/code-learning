@@ -19,7 +19,6 @@ int main(){
     }
     printf("%.2lf",sum);
 }
-//又是斐波那契数列问题
 //更好的写法
 /*
 #include<stdio.h>
